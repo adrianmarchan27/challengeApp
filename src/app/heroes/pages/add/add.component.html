@@ -1,0 +1,149 @@
+<h1>
+  {{ hero.id ? "Editar" : "Nuevo" }}
+  Héroe
+  <small>{{ hero.superHero | titlecase }}</small>
+</h1>
+
+<div
+  class="animate__animated animate__fadeIn"
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayout.sm="column"
+  fxLayoutGap="40px"
+>
+  <div fxFlex="50" fxLayout="column">
+    <form
+      fxLayout="column"
+      [formGroup]="saveAndEditForm"
+      fxLayoutGap="20px"
+      autocomplete="off"
+    >
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+        <mat-form-field fxFlex="100">
+          <mat-label>Super Héroe</mat-label>
+          <input matInput type="text" formControlName="superHero" />
+          <mat-error *ngIf="getHasRequiredError('superHero')">{{
+            getMessageIsRequired()
+          }}</mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex="100">
+          <mat-label>Alter Ego</mat-label>
+          <input matInput type="text" formControlName="alterEgo" />
+          <mat-error *ngIf="getHasRequiredError('alterEgo')">{{
+            getMessageIsRequired()
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <mat-label>Primera Aparición</mat-label>
+        <input matInput type="text" formControlName="firstAppearance" />
+        <mat-error *ngIf="getHasRequiredError('firstAppearance')">{{
+          getMessageIsRequired()
+        }}</mat-error>
+      </mat-form-field>
+      <div fxLayout="row" fxFlex="100">
+        <mat-form-field fxFlex="85">
+          <mat-label>Nombre del Personaje</mat-label>
+          <input
+            matInput
+            type="text"
+            [formControl]="newCharacter"
+            (keyup.enter)="addCharacter()"
+          />
+          <mat-error
+            *ngIf="newCharacter.invalid && charactersArr.controls.length === 0"
+            >{{ getMessageIsRequired() }}</mat-error
+          >
+        </mat-form-field>
+        <span class="spacer"></span>
+        <button
+          mat-fab
+          color="primary"
+          FxFLex="15"
+          (click)="addCharacter()"
+          type="button"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div
+        formArrayName="characters"
+        fxLayout="column"
+        fxLayoutGap="20px"
+        fxFlex="100"
+        *ngIf="charactersArr.controls.length > 0"
+      >
+        <div
+          fxLayout="row"
+          fxFlex="100"
+          *ngFor="let character of charactersArr.controls; let i = index"
+        >
+          <mat-form-field fxFlex="85">
+            <input matInput type="text" [formControlName]="i" />
+          </mat-form-field>
+          <span class="spacer"></span>
+          <button
+            mat-fab
+            color="warn"
+            FxFLex="15"
+            type="button"
+            (click)="deleteCharacter(i)"
+          >
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-form-field>
+        <mat-label>Creador</mat-label>
+        <mat-select formControlName="publisher">
+          <mat-option
+            *ngFor="let publisher of publishers"
+            [value]="publisher.id"
+          >
+            {{ publisher.desc }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="getHasRequiredError('publisher')">{{
+          getMessageIsRequired()
+        }}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Foto Url</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="altImg"
+          (input)="changeImg()"
+        />
+        <mat-error *ngIf="getHasRequiredError('altImg')">{{
+          getMessageIsRequired()
+        }}</mat-error>
+      </mat-form-field>
+    </form>
+    <br />
+
+    <div fxLayout>
+      <button mat-raised-button color="primary" (click)="saveHero()">
+        <mat-icon *ngIf="hero.id; else iconSave">edit</mat-icon>
+        <ng-template #iconSave>
+          <mat-icon>save</mat-icon>
+        </ng-template>
+
+        {{ hero.id ? "Actualizar" : "Crear" }}
+      </button>
+      <span class="spacer"></span>
+      <button
+        *ngIf="hero.id"
+        mat-raised-button
+        color="warn"
+        (click)="deleteHero()"
+      >
+        <mat-icon>remove</mat-icon>
+        Borrar
+      </button>
+    </div>
+  </div>
+  <div fxFlex="50">
+    <img [src]="hero | image" />
+  </div>
+</div>
