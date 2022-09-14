@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
 import {
   FormArray,
   FormBuilder,
@@ -6,13 +7,17 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+
 import { ConfirmComponent } from '../../components/confirm/confirm.component';
 import { Hero, Publisher } from '../../interfaces/hero.interface';
+
 import { HeroesService } from '../../services/heroes.service';
+import { AddHero } from '../../state/hero.actions';
 
 @Component({
   selector: 'app-add',
@@ -64,7 +69,8 @@ export class AddComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
@@ -132,16 +138,25 @@ export class AddComponent implements OnInit {
     this.hero = { id, ...this.saveAndEditForm.value };
 
     if (this.hero.id != '') {
-      this.heroesService.updateHero(this.hero).subscribe((hero) => {
-        this.showSnackbar('Registro actualizado');
-      });
+      this.addHero(this.hero);
     } else {
-      this.heroesService.addHero(this.hero).subscribe((_) => {
-        this.router.navigate(['/heroes/editar', this.hero.id]);
-        this.showSnackbar('Registro creado');
-      });
+      this.updateHero(this.hero);
     }
   }
+
+  addHero(hero: Hero) {
+    this.heroesService.updateHero(hero).subscribe((_) => {
+      this.showSnackbar('Registro actualizado');
+    });
+  }
+
+  updateHero(hero: Hero) {
+    this.heroesService.addHero(hero).subscribe((_) => {
+      this.router.navigate(['/heroes/editar', this.hero.id]);
+      this.showSnackbar('Registro creado');
+    });
+  }
+
   deleteHero() {
     const dialog = this.dialog.open(ConfirmComponent, {
       width: '250px',

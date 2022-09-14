@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { NgxsModule } from '@ngxs/store';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -17,7 +16,6 @@ import { HeroCardComponent } from './components/hero-card/hero-card.component';
 import { ImagePipe } from './pipes/image.pipe';
 import { BeautifulListPipe } from './pipes/beautiful-list.pipe';
 import { ConfirmComponent } from './components/confirm/confirm.component';
-import { environment } from 'src/environments/environment';
 
 
 
@@ -34,9 +32,6 @@ import { environment } from 'src/environments/environment';
     ConfirmComponent
   ],
   imports: [
-    NgxsModule.forRoot([], {
-      developmentMode: !environment.production
-    }),
     CommonModule,
     FlexLayoutModule,
     ReactiveFormsModule,
