@@ -1,14 +1,13 @@
+# ChallengeApp
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.2.
+
 ## Explicación Proyecto
 Realizado utilizando Angular Material y Flex Layout, intenté realizar algo básico con respecto a NGXS, pero no me fue posible hacerlo funcionar. Espero este todo acorde a lo solicitado y muchas gracias por su tiempo.
 
 Para ejecutar el proyecto se deben ejecutar los siguientes comandos en dos terminales distintas:
 1. - npm run jsonServer (para levantar backend falso)
 2. - ng serve o npm start
-
-# ChallengeApp
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.2.
-
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
