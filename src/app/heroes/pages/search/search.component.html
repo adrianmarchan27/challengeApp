@@ -1,0 +1,30 @@
+<div fxLayout="column">
+    <div>
+        <h1>Buscador de Héroes</h1>
+        <mat-divider></mat-divider>
+    </div>
+    <div fxLayout="column">
+        <h3>Buscador</h3>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Nombre del Super Héroe</mat-label>
+            <input type="text"
+                   placeholder="Escojamos uno"
+                   aria-label="Nombre del Super Héroe"
+                   matInput
+                   [formControl]="search"
+                   [matAutocomplete]="auto"
+                   (input)="searching()">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
+              <mat-option *ngFor="let hero of heroes" [value]="hero">
+                {{hero.superHero}}
+              </mat-option>
+              <mat-option value="" *ngIf="heroes.length === 0 && search.value.trim().length > 0">
+                No se encontró nada con la sugerencia {{search.value}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+    </div>
+    <div class="animate__animated animate__fadeIn" *ngIf="heroSelected" fxLayout fxFlex="20" fxLayoutAlign="center stretch">
+        <app-hero-card [hero]="heroSelected"></app-hero-card>
+    </div>
+</div>

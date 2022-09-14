@@ -1,0 +1,43 @@
+<mat-grid-list cols="1" *ngIf="!hero; else divHero">
+  <mat-grid-tile>
+    <mat-spinner></mat-spinner>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<ng-template #divHero>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px">
+    <div fxFlex="50">
+      <h1>
+        {{ hero.superHero }} <small>- {{ hero.alterEgo }}</small>
+      </h1>
+      <mat-divider></mat-divider>
+      <br />
+      <img [src]="hero | image" />
+    </div>
+    <div fxFlex="50">
+      <h1>{{ hero.publisher }}</h1>
+      <br />
+      <mat-list>
+        <mat-list-item>
+          <span>
+            <strong>Primera aparición:</strong> {{ hero.firstAppearance }}
+          </span>
+        </mat-list-item>
+        <mat-list-item>
+          <span>
+            <strong>Personajes: </strong>
+            {{ hero | beautifulList }}
+          </span>
+        </mat-list-item>
+        <mat-list-item>
+          <span> <strong>Creador:</strong> {{ hero.publisher }} </span>
+        </mat-list-item>
+        <mat-list-item>
+          <span> <strong>Alter ego:</strong> {{ hero.alterEgo }} </span>
+        </mat-list-item>
+      </mat-list>
+      <br />
+      <button mat-button color="warn" (click)="comeBack()">Regresar</button>
+    </div>
+  </div>
+</ng-template>
